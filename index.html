@@ -34,6 +34,8 @@
       var login = function() {
         FB.login(function(response) {
           if (response.authResponse) {
+            console.log(response);
+            $('.notices').empty();
             fetchFriends();
           }
         });

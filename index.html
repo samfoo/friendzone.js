@@ -34,8 +34,15 @@
       var login = function() {
         FB.login(function(response) {
           if (response.authResponse) {
-            console.log(response);
-            $('.notices').empty();
+            FB.api('/me', function(response) {
+              $('.notices').empty();
+              $('.notices').html(
+                "Hey there, " +
+                response.first_name +
+                ". Type below to search through your friends. (p.s. don't " +
+                "forget to uninstall the demo app when you're done :-)"
+              );
+            });
             fetchFriends();
           }
         });

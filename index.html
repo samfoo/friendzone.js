@@ -7,6 +7,7 @@
     <script>
       window.fbAsyncInit = function() {
         FB.init({appId: '220743724715543', status: true, cookie: true, xfbml: true });
+
       };
 
       (function(d){
@@ -84,29 +85,23 @@
           new FriendSearch('#friend-search', response.data);
         });
       };
-    </script>
 
-    <script>
-      var login = function() {
-        FB.login(function(response) {
-          if (response.authResponse) {
-            FB.api('/me', function(response) {
-              $('.notices').empty();
-              $('.notices').html(
-                "Hey there, " +
-                response.first_name +
-                ". Type below to search through your friends. (p.s. don't " +
-                "forget to uninstall the demo app when you're done :-)"
-              );
-            });
-            fetchFriends();
-          }
+      var updateMe = function() {
+        FB.api('/me', function(response) {
+          $('.notices').empty();
+          $('.notices').html(
+          "Hey there, " +
+          response.first_name +
+          ". Type below to search through your friends. (p.s. don't " +
+          "forget to uninstall the demo app when you're done :-)"
+          );
         });
+        fetchFriends();
       };
     </script>
 
     <div class="notices">
-      <div class="fb-login-button" onclick="login();">Login with Facebook</div> to demo on your friends list
+      <div class="fb-login-button" data-onlogin="updateMe();">Login with Facebook</div> to demo on your friends list
     </div>
 
     <div class="demo">

@@ -17,6 +17,54 @@
         ref.parentNode.insertBefore(js, ref);
       }(document));
     </script>
+
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .demo {
+        background: #3B5998 url(https://s-static.ak.fbcdn.net/rsrc.php/v2/y0/r/NB47cUfXHpf.png) repeat-x;
+        border-bottom: 1px solid #23487E;
+        border-top: 1px solid #23487E;
+        height: 50px;
+      }
+
+      .search {
+        position: relative;
+        padding: 0;
+        margin: 0 auto;
+        margin-top: 10px;
+        width: 235px;
+        border: solid 1px #294A8F;
+        border-top: solid 1px #123682;
+        background-color: white;
+      }
+
+      #friend-search {
+        width: 200px;
+        border: 0;
+        padding: 5px 4px;
+        margin: 0;
+        outline: none;
+        font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+        font-size: 11px;
+        -webkit-appearance: none;
+        -webkit-border-radius: 0;
+        display: inline-block;
+      }
+
+      .glass {
+        background: white url("images/search.png") no-repeat 4px 0;
+        position: absolute;
+        height: 16px;
+        width: 25px;
+        right: 0;
+        top: 3px;
+        border-left: 1px solid #ccc;
+      }
+    </style>
   </head>
 
   <body>
@@ -50,10 +98,15 @@
     </script>
 
     <div class="notices">
-      <a href="#" onclick="login()">Login to facebook to test...</a>
+      <div class="fb-login-button"></div>
     </div>
 
-    <input type="text" id="friend-search" />
+    <div class="demo">
+      <div class="search">
+        <input type="text" id="friend-search" />
+        <div class="glass"></div>
+      </div>
+  </div>
   </body>
 
 </html>

@@ -1,4 +1,4 @@
-var FriendSearch = (function() {
+;FriendSearch = (function() {
   var id = 0;
 
   function FriendSearch(input, friends) {
@@ -189,7 +189,7 @@ var FriendSearch = (function() {
   return FriendSearch;
 })();
 
-var Graph = (function() {
+Graph = (function() {
   function Graph() {
     this.root = 0;
     this.graph = {0: []};

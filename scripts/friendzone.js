@@ -1,9 +1,15 @@
 var FriendSearch = (function() {
+  var id = 0;
+
   function FriendSearch(input, friends) {
+    id++;
+
     var self = this;
 
     this.input = input;
     this.graph = new Graph();
+    this.containerId = 'fac-' + id;
+    this.containerSelector = '#' + this.containerId;
 
     for (var i=0; i < friends.length; i++) {
       this.graph.insert(friends[i].name, friends[i].id);
@@ -26,7 +32,7 @@ var FriendSearch = (function() {
           self.moveSelection('up');
         }
         else if (e.which == 13) { // Enter/return
-          var active = $('.fac-container .fac-item.active');
+          var active = $(self.containerSelector + ' .fac-item.active');
           select(active);
         }
         else if (e.which == 27) {
@@ -35,21 +41,21 @@ var FriendSearch = (function() {
       });
 
       self.appendStyle();
-      $('.fac-container').remove();
-      $('body').append('<div class="fac-container"></div>');
-      $('.fac-container .fac-item').live('mouseenter', function() {
-        var current = $('.fac-container .fac-item.active');
+      $(self.containerSelector).remove();
+      $('body').append('<div class="fac-container" id="' + self.containerId + '"></div>');
+      $(self.containerSelector + ' .fac-item').live('mouseenter', function() {
+        var current = $(self.containerSelector + ' .fac-item.active');
         current.removeClass('active');
         $(this).addClass('active');
 
         self.hoveringOnHint = true;
       });
 
-      $('.fac-container .fac-item').live('mouseleave', function() {
+      $(self.containerSelector + ' .fac-item').live('mouseleave', function() {
         self.hoveringOnHint = false;
       });
 
-      $('.fac-container .fac-item').live('click', function() {
+      $(self.containerSelector + ' .fac-item').live('click', function() {
         select($(this));
       });
 
@@ -98,17 +104,17 @@ var FriendSearch = (function() {
   };
 
   FriendSearch.prototype.dismissHints = function() {
-    $('.fac-container').css('display', 'none');
+    $(this.containerSelector).css('display', 'none');
   }
 
   FriendSearch.prototype.moveSelection = function(direction) {
-    var current = $('.fac-container .fac-item.active');
+    var current = $(this.containerSelector + ' .fac-item.active');
     if (current.length == 0) {
       if (direction == 'up') {
-        $('.fac-container .fac-item:last').addClass('active');
+        $(this.containerSelector + ' .fac-item:last').addClass('active');
       }
       else {
-        $('.fac-container .fac-item:first').addClass('active');
+        $(this.containerSelector + ' .fac-item:first').addClass('active');
       }
     }
     else {
@@ -137,8 +143,8 @@ var FriendSearch = (function() {
   };
 
   FriendSearch.prototype.clear = function() {
-    $('.fac-container').empty();
-    $('.fac-container').
+    $(this.containerSelector).empty();
+    $(this.containerSelector).
       css('display', 'block').
       css('position', 'absolute').
       css('left', $(this.input).offset().left).
@@ -165,18 +171,18 @@ var FriendSearch = (function() {
       friendDiv.append(friendImg);
       friendDiv.append(friendName);
 
-      $('.fac-container').append(friendDiv);
+      $(this.containerSelector).append(friendDiv);
 
       i++;
     }
 
     if (i > 0) {
       var footer = $('<div class="fac-footer"> Showing results for ' + $(this.input).val() + '</div>');
-      $('.fac-container').append(footer);
+      $(this.containerSelector).append(footer);
     }
     else {
       var footer = $('<div class="fac-footer">No friends for ' + $(this.input).val() + ' :-(</div>');
-      $('.fac-container').append(footer);
+      $(this.containerSelector).append(footer);
     }
   };
 

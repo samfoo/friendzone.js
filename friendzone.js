@@ -35,6 +35,7 @@ var FriendSearch = (function() {
       });
 
       self.appendStyle();
+      $('.fac-container').remove();
       $('body').append('<div class="fac-container"></div>');
       $('.fac-container .fac-item').live('mouseenter', function() {
         var current = $('.fac-container .fac-item.active');

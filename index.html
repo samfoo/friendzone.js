@@ -74,7 +74,7 @@
         background-color: white;
       }
 
-      #friend-search {
+      input {
         width: 227px;
         border: 0;
         padding: 5px 4px;
@@ -142,7 +142,7 @@
 
             FB.api('/me', function(response) {
               $('.notices').empty();
-              $('.demo').prepend(
+              $('.online.demo').prepend(
                 "<p>Hey there, " +
                 response.first_name +
                 ". Type below to search through your friends. (p.s. don't " +
@@ -160,15 +160,71 @@
       };
 
       $(function() {
-        $('#friend-search').on("selected", function(_, facebookId) {
+        $('#offline-friend-search').on("selected", function(_, facebookId) {
+          console.log("offline selected");
           FB.api('/' + facebookId, function(response) {
-            $('.selected').empty();
-            $('.selected').append(
+            $('.offline .selected').empty();
+            $('.offline .selected').append(
               '<div class="picture"><img src="http://graph.facebook.com/'
               + facebookId + '/picture" /></div><div class="name">' + response.name + '</div>'
             ).show();
           });
         });
+
+        $('#friend-search').on("selected", function(_, facebookId) {
+          console.log("online selected");
+          FB.api('/' + facebookId, function(response) {
+            $('.online .selected').empty();
+            $('.online .selected').append(
+              '<div class="picture"><img src="http://graph.facebook.com/'
+              + facebookId + '/picture" /></div><div class="name">' + response.name + '</div>'
+            ).show();
+          });
+        });
+
+        new FriendSearch('#offline-friend-search', [
+          { "name": "AE Melendez", "id": "108536" },
+          { "name": "Chris Metcalf", "id": "4804855" },
+          { "name": "Steven Willinger", "id": "13302553" },
+          { "name": "Kristen Beck", "id": "23807574" },
+          { "name": "Ashleigh Johns-Pickering", "id": "27202927" },
+          { "name": "Chris Strahl", "id": "27206066" },
+          { "name": "Shannon Poff", "id": "27207058" },
+          { "name": "Jessica Richardson", "id": "27210019" },
+          { "name": "Elle Flood", "id": "27211952" },
+          { "name": "Rachelle Flynn", "id": "27218196" },
+          { "name": "Gina Nichols", "id": "37903184" },
+          { "name": "Sarah Jones", "id": "82301402" },
+          { "name": "Mary Ortiz", "id": "501475997" },
+          { "name": "Winona Rennick", "id": "507848738" },
+          { "name": "Bjørn Tore Lindsøe Østvang", "id": "522366083" },
+          { "name": "Luke Stubbles", "id": "536121018" },
+          { "name": "Deepa Dhupelia", "id": "556736272" },
+          { "name": "Julio Maia", "id": "572750390" },
+          { "name": "Sneha Kadam", "id": "591380515" },
+          { "name": "Merlin Ivanoff", "id": "609072719" },
+          { "name": "Chris Duffy", "id": "636820573" },
+          { "name": "Sarah Marie Howe", "id": "655288178" },
+          { "name": "Robert Lundberg", "id": "664741119" },
+          { "name": "Dotstry Dolemout Jackson", "id": "681642348" },
+          { "name": "Kawalnain Singh Arora", "id": "716445670" },
+          { "name": "Doug Scott", "id": "741336756" },
+          { "name": "Zane Gambasin", "id": "760553932" },
+          { "name": "Andrea Johnson", "id": "789699414" },
+          { "name": "Asuka Matsuhashi", "id": "833530141" },
+          { "name": "James M Rieck", "id": "1031512275" },
+          { "name": "Oj Keval", "id": "1111309899" },
+          { "name": "Matt Macias", "id": "1187063449" },
+          { "name": "Dave Hickey", "id": "1325527070" },
+          { "name": "Kendra Breyer", "id": "1421481952" },
+          { "name": "Matthew Murphy", "id": "1569469779" },
+          { "name": "Jim Simpson", "id": "1607505997" },
+          { "name": "Pavel Rombakh", "id": "100000312904521" },
+          { "name": "April Rieck", "id": "100000909714671" },
+          { "name": "Kris Kezar", "id": "100002166860657" },
+          { "name": "Stephanie Jukich", "id": "100003183669270" },
+          { "name": "Chris Bushell", "id": "100003827440732" }
+        ]);
       });
     </script>
 
@@ -176,9 +232,21 @@
       <div class="fb-login-button" data-onlogin="updateMe();">Log in</div> to demo on your friends list
     </div>
 
-    <div class="demo">
+    <div class="online demo">
       <div class="search">
         <input type="text" id="friend-search" />
+        <div class="glass"></div>
+      </div>
+      <div class="selected"></div>
+      <div style="clear:both"></div>
+    </div>
+
+    <h2>Or...</h2>
+
+    <div class="offline demo">
+      <p>...you can search through some fake friends if you don't want to login</p>
+      <div class="search">
+        <input type="text" id="offline-friend-search" />
         <div class="glass"></div>
       </div>
       <div class="selected"></div>

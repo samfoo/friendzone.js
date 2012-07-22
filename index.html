@@ -80,9 +80,12 @@
     <div id="fb-root"></div>
 
     <script>
+      var fs;
       var fetchFriends = function() {
         FB.api('/me/friends', function(response) {
-          new FriendSearch('#friend-search', response.data);
+          if (typeof fs == 'undefined') {
+            fs = new FriendSearch('#friend-search', response.data);
+          }
         });
       };
 

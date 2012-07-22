@@ -19,6 +19,7 @@ var FriendSearch = (function() {
 
       $(self.input).on('input', function(e) { self.search($(self.input).val()); });
       $(self.input).on('keydown', function(e) {
+        console.log("keydown " + e.which);
         if (e.which == 40) { // Down arrow
           self.moveSelection('down');
         }
@@ -35,6 +36,7 @@ var FriendSearch = (function() {
       });
 
       self.appendStyle();
+      $('.fac-container').remove();
       $('body').append('<div class="fac-container"></div>');
       $('.fac-container .fac-item').live('mouseenter', function() {
         var current = $('.fac-container .fac-item.active');
@@ -130,8 +132,8 @@ var FriendSearch = (function() {
     $('.fac-container').
       css('display', 'block').
       css('position', 'absolute').
-      css('left', $(this.input).position().left).
-      css('top', $(this.input).position().top + $(this.input).outerHeight()).
+      css('left', $(this.input).offset().left).
+      css('top', $(this.input).offset().top + $(this.input).outerHeight()).
       css('width', $(this.input).outerWidth());
   };
 

@@ -19,7 +19,6 @@ var FriendSearch = (function() {
 
       $(self.input).on('input', function(e) { self.search($(self.input).val()); });
       $(self.input).on('keydown', function(e) {
-        console.log("keydown " + e.which);
         if (e.which == 40) { // Down arrow
           self.moveSelection('down');
         }
@@ -42,6 +41,12 @@ var FriendSearch = (function() {
         var current = $('.fac-container .fac-item.active');
         current.removeClass('active');
         $(this).addClass('active');
+
+        self.hoveringOnHint = true;
+      });
+
+      $('.fac-container .fac-item').live('mouseleave', function() {
+        self.hoveringOnHint = false;
       });
 
       $('.fac-container .fac-item').live('click', function() {
@@ -49,6 +54,10 @@ var FriendSearch = (function() {
       });
 
       $(self.input).focusout(function() {
+        if (self.hoveringOnHint) {
+          return;
+        }
+
         self.dismissHints();
       });
 

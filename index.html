@@ -7,7 +7,6 @@
     <script>
       window.fbAsyncInit = function() {
         FB.init({appId: '220743724715543', status: true, cookie: true, xfbml: true });
-
       };
 
       (function(d){
@@ -59,6 +58,12 @@
         width: 240px;
       }
 
+      .fb-login-button {
+        width: 71px;
+        height: 22px;
+        display: inline-block;
+      }
+
       .search {
         position: relative;
         padding: 0;
@@ -70,7 +75,7 @@
       }
 
       #friend-search {
-        width: 200px;
+        width: 227px;
         border: 0;
         padding: 5px 4px;
         margin: 0;
@@ -91,6 +96,31 @@
         top: 3px;
         border-left: 1px solid #ccc;
       }
+
+      .selected {
+        width: 227px;
+        margin: 0 auto;
+        padding: 15px;
+        display: none;
+      }
+
+      .picture {
+        float: left;
+      }
+
+      .picture img {
+        height: 28px;
+        width: 28px;
+      }
+
+      .name {
+        margin-top: 6px;
+        margin-left: 15px;
+        float: left;
+        color: #D8DFEA;
+        font-weight: bold;
+        font-size: 18px;
+      }
     </style>
   </head>
 
@@ -109,13 +139,14 @@
         FB.api('/me/friends', function(response) {
           if (!loggedIn) {
             new FriendSearch('#friend-search', response.data);
+
             FB.api('/me', function(response) {
               $('.notices').empty();
               $('.demo').prepend(
-              "<p>Hey there, " +
-              response.first_name +
-              ". Type below to search through your friends. (p.s. don't " +
-              "forget to uninstall the demo app when you're done :-)</p>"
+                "<p>Hey there, " +
+                response.first_name +
+                ". Type below to search through your friends. (p.s. don't " +
+                "forget to uninstall the demo app when you're done :-)</p>"
               );
             });
 
@@ -127,10 +158,22 @@
       var updateMe = function() {
         fetchFriends();
       };
+
+      $(function() {
+        $('#friend-search').on("selected", function(_, facebookId) {
+          FB.api('/' + facebookId, function(response) {
+            $('.selected').empty();
+            $('.selected').append(
+              '<div class="picture"><img src="http://graph.facebook.com/'
+              + facebookId + '/picture" /></div><div class="name">' + response.name + '</div>'
+            ).show();
+          });
+        });
+      });
     </script>
 
     <div class="notices">
-      <div class="fb-login-button" data-onlogin="updateMe();">Login with Facebook</div> to demo on your friends list
+      <div class="fb-login-button" data-onlogin="updateMe();">Log in</div> to demo on your friends list
     </div>
 
     <div class="demo">
@@ -138,7 +181,9 @@
         <input type="text" id="friend-search" />
         <div class="glass"></div>
       </div>
-  </div>
-  </body>
+      <div class="selected"></div>
+      <div style="clear:both"></div>
+    </div>
 
+  </body>
 </html>

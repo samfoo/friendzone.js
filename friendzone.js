@@ -18,6 +18,8 @@
     $(function() {
       var select = function(item) {
         if (item.length > 0) {
+          $(self.input).val('');
+          $(self.input).blur();
           $(self.input).trigger('selected', item.data('facebook-id'));
           self.dismissHints();
         }

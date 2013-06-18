@@ -25,7 +25,11 @@
         }
       };
 
-      $(self.input).on('input', function(e) { self.search($(self.input).val()); });
+      $(self.input).on('keyup', function(e) {
+        if (e.which != 40 && e.which != 38 && e.which != 13 && e.which != 27) {
+          self.search($(self.input).val());
+        }
+      });
       $(self.input).on('keydown', function(e) {
         if (e.which == 40) { // Down arrow
           self.moveSelection('down');
@@ -45,7 +49,7 @@
       self.appendStyle();
       $(self.containerSelector).remove();
       $('body').append('<div class="fac-container" id="' + self.containerId + '"></div>');
-      $(self.containerSelector + ' .fac-item').live('mouseenter', function() {
+      $(document).on('mouseenter', self.containerSelector + ' .fac-item', function() {
         var current = $(self.containerSelector + ' .fac-item.active');
         current.removeClass('active');
         $(this).addClass('active');
@@ -53,11 +57,11 @@
         self.hoveringOnHint = true;
       });
 
-      $(self.containerSelector + ' .fac-item').live('mouseleave', function() {
+      $(document).on('mouseleave', self.containerSelector + ' .fac-item', function() {
         self.hoveringOnHint = false;
       });
 
-      $(self.containerSelector + ' .fac-item').live('click', function() {
+      $(document).on('click', self.containerSelector + ' .fac-item', function() {
         select($(this));
       });
 
@@ -133,7 +137,7 @@
 
   FriendSearch.prototype.appendStyle = function() {
     var styles = [
-      ".fac-container { background-color: white; border: 1px solid #000; overflow: hidden; display: none; }",
+      ".fac-container { background-color: white; border: 1px solid #000; overflow: hidden; display: none; z-index: 8000; }",
       ".fac-item { cursor: pointer; min-height: 50px; padding: 2px 30px 2px 63px;  border-top: 1px solid white; border-bottom: 1px solid white; }",
       ".fac-item img { position: absolute; left: 6px; height: 50px; width: 50px; }",
       ".fac-name, .fac-footer { color: #3b5998; font-weight: bold; font-family: 'lucida grande',tahoma,verdana,arial,sans-serif; font-size: 11px; line-height: 18px; }",
@@ -197,16 +201,16 @@ Graph = (function() {
     this.graph = {0: []};
     this.ids = [0]
     this.accepts = {};
-  };
+  }
 
   Graph.prototype.insert = function(name, id) {
     var self = this;
-    var orig = name
+    var orig = name;
 
     var rinsert = function(node, fragment) {
       if (fragment.length == 0) {
         if (typeof self.accepts[node] == 'undefined') {
-          self.accepts[node] = {}
+          self.accepts[node] = {};
         }
 
         self.accepts[node][id] = orig;
@@ -365,4 +369,3 @@ Graph = (function() {
 
   return Graph;
 })();
-
